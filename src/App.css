@@ -1,0 +1,30 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+
+/* Layout global da aplicação */
+
+html,
+body,
+#root {
+  height: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Garante que o conteúdo principal ocupe o espaço disponível */
+main {
+  flex: 1;
+}
+
+
+

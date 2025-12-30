@@ -1,0 +1,262 @@
+.meals {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Introdução*/
+
+.meals__intro {
+  padding: 40px 20px;
+}
+
+.meals__container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.meals__title {
+  margin: 0 0 16px;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.meals__description {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+/* Menu de Filtros*/
+
+.meals__filters {
+  padding: 0 20px;
+}
+
+.filters-menu {
+  max-width: 1280px;
+  margin: 0 auto 32px;
+  display: flex;
+  gap: 16px;
+}
+
+.filter-button {
+  padding: 10px 18px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.filter-button:hover {
+  background-color: #eaeaea;
+  transform: scale(1.03);
+}
+
+.filter-button.active {
+  background-color: #222;
+  color: #fff;
+  border-color: #222;
+}
+
+/*Lista de Pratos*/
+
+.meals__cards {
+  max-width: 1280px;
+  margin: 24px auto 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/*Estados auxiliares */
+
+.meals__error,
+.meals__empty {
+  max-width: 1280px;
+  margin: 32px auto;
+  padding: 0 20px;
+  font-size: 14px;
+}
+
+.meals__filter-panel {
+  max-width: 1280px;
+  margin: 0 auto 24px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Modal base */
+.meal-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+}
+
+.meal-modal__overlay{
+  position:absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.meal-modal__content {
+  position: relative;
+  max-width: 800px;
+  margin: 5vh auto;
+  background: #fff;
+  padding:15px;
+  border-radius: 8px;
+  z-index: 1;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.meal-modal__close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.meal-modal__body {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.meal-modal__meta + .meal-modal__meta {
+  margin-top: -6px;
+}
+
+
+.meal-modal__image {
+  width: 100%;
+  max-width: 600px;
+  max-height: 400px;
+  object-fit:cover;
+  border-radius: 8px;
+}
+
+.meal-modal__title{
+  font-size: 1.6rem;
+  text-align: center;
+  margin: 0;
+}
+
+.meal-modal__meta {
+  margin: 4px 0;
+  font-size: 0.95rem;
+  color: #444;
+  
+}
+
+/* Botão Mostrar Mais*/
+
+.meals__more {
+  display: block;
+  margin: 40px auto 60px;
+  padding: 12px 24px;
+  font-size: 14px;
+  background-color: #222;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+.meal-modal__meta:first-of-type {
+  margin-top: 5px;
+}
+
+
+.meals__more:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+/*filtro: label + select*/
+
+.meals__filter-panel label {
+  display: flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.meals__filter-panel select {
+  padding: 6px 10px;
+  font-size: 14px;
+}
+
+.meals__active-filter{
+
+  max-width: 1280px;
+  margin: 0 auto 16px;
+  padding: 0 20px;
+}
+
+.meals__clear {
+  max-width: 1280px;
+  display: block;
+   margin: 0 auto 16px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  color: #222;
+  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 32px;
+  padding: 10px 18px;
+}
+
+@media (max-width: 400px) {
+  .meals__intro {
+    padding: 24px 16px;
+  }
+
+  .meals__title {
+    font-size: 22px;
+  }
+
+  .meals__description {
+    font-size: 15px;
+  }
+
+  .filters-menu {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .meals__cards {
+    padding: 0 16px;
+  }
+
+  /* Modal */
+  .meal-modal__content {
+    max-width: calc(100% - 32px);
+    margin: 6vh auto;
+    padding: 18px 14px 14px;
+  }
+
+   .meal-modal__body {
+    padding-top: 26px;
+    gap: 12px;
+  }
+
+  .meal-modal__image {
+    max-height: 220px;
+}
+
+  .meal-modal__title {
+    font-size: 1.35rem;
+  }
+
+   .meal-modal__close {
+  top: 8px;
+  right: 8px;
+  }
+}
+
