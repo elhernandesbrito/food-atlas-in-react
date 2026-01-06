@@ -1,7 +1,9 @@
-import './Meals.css';
-import { useState, useEffect } from 'react';
-import Preloader from '../Preloader/Preloader';
-import MealCard from '../MealCard/MealCard';
+import "./Meals.css";
+import { useState, useEffect } from "react";
+import Preloader from "../Preloader/Preloader";
+import MealCard from "../MealCard/MealCard";
+import MealModal from "../MealModal/MealModal";
+
 import {
   getMeals,
   getAreas,
@@ -9,11 +11,11 @@ import {
   getMealsByArea,
   getMealsByCategory,
   getMealById,
-} from '../../utils/mealApi';
+} from "../../utils/mealApi";
 
 function Meals() {
   const [meals, setMeals] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [visibleCount, setVisibleCount] = useState(3);
 
@@ -25,58 +27,24 @@ function Meals() {
   const [categories, setCategories] = useState([]);
 
   // Filtros (não combináveis)
-  const [selectedArea, setSelectedArea] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedArea, setSelectedArea] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
 
-  //seleção dos cards
+  // Modal
   const [selectedMealId, setSelectedMealId] = useState(null);
-
-  //modal
-  const shouldShowModal = selectedMealId !== null;
-
-  //estado detalhes do prato
   const [selectedMeal, setSelectedMeal] = useState(null);
 
-    function handleSelectedMeal(mealId) {
-    setSelectedMealId(mealId);
-    }
+  const shouldShowModal = selectedMealId !== null;
 
-    //função para buscar detalhes dos pratos
+  /* Carregamento inicial */
 
-        function fetchSelectedMeal(mealId) {
-      setIsLoading(true);
-      setError(null);
-
-      getMealById(mealId)
-        .then((data) => {
-          setSelectedMeal(data.meals ? data.meals[0] : null);
-        })
-        .catch((err) => {
-          setError('Erro ao carregar detalhes do prato.');
-          console.error(err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    }
-
-     useEffect(() => {
-      if (!selectedMealId) return;
-
-      fetchSelectedMeal(selectedMealId);
-    }, [selectedMealId]);
-
-  // Carregar pratos iniciais
   useEffect(() => {
-    setIsLoading(true);
-    setError(null);
-
     getMeals()
       .then((data) => {
         setMeals(data.meals || []);
       })
       .catch((err) => {
-        setError('Desculpe, algo deu errado ao carregar os pratos.');
+        setError("Desculpe, algo deu errado ao carregar os pratos.");
         console.error(err);
       })
       .finally(() => {
@@ -84,77 +52,113 @@ function Meals() {
       });
   }, []);
 
-  // Buscar países
+  /* Menu exploratório */
+
   useEffect(() => {
-    if (filterMode === 'area' && areas.length === 0) {
+    if (filterMode === "area" && areas.length === 0) {
       getAreas()
         .then((data) => setAreas(data.meals || []))
         .catch(console.error);
     }
-  }, [filterMode, areas.length]);
 
-  // Buscar categorias
-  useEffect(() => {
-    if (filterMode === 'category' && categories.length === 0) {
+    if (filterMode === "category" && categories.length === 0) {
       getCategories()
         .then((data) => setCategories(data.meals || []))
         .catch(console.error);
     }
-  }, [filterMode, categories.length]);
+  }, [filterMode, areas.length, categories.length]);
 
-  // Aplicar filtro por país
+  /*Fechar modal com ESC */
   useEffect(() => {
-    if (!selectedArea) return;
+    if (!shouldShowModal) return;
+    const handleEscClose = (event) => {
+      if (event.key === "Escape") {
+        setSelectedMealId(null);
+        setSelectedMeal(null);
+      }
+    };
 
-    setSelectedCategory(''); // limpa o outro filtro
+    document.addEventListener("keydown", handleEscClose);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscClose);
+    };
+  }, [shouldShowModal]);
+
+  /* Handlers (eventos)*/
+
+  const handleSelectMeal = (mealId) => {
+    setSelectedMealId(mealId);
     setIsLoading(true);
     setError(null);
-    setVisibleCount(3);
 
-    getMealsByArea(selectedArea)
-      .then((data) => setMeals(data.meals || []))
+    getMealById(mealId)
+      .then((data) => {
+        setSelectedMeal(data.meals ? data.meals[0] : null);
+      })
       .catch((err) => {
-        setError('Erro ao filtrar pratos por país.');
+        setError("Erro ao carregar detalhes do prato.");
         console.error(err);
       })
-      .finally(() => setIsLoading(false));
-  }, [selectedArea]);
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
 
-  // Aplicar filtro por categoria
-  useEffect(() => {
-    if (!selectedCategory) return;
-
-    setSelectedArea(''); // limpa o outro filtro
+  const handleSelectArea = (area) => {
+    setSelectedArea(area);
+    setSelectedCategory("");
+    setVisibleCount(3);
     setIsLoading(true);
     setError(null);
-    setVisibleCount(3);
 
-    getMealsByCategory(selectedCategory)
+    if (!area) return;
+
+    getMealsByArea(area)
       .then((data) => setMeals(data.meals || []))
       .catch((err) => {
-        setError('Erro ao filtrar pratos por categoria.');
-        console.error(err);
-      })
-      .finally(() => setIsLoading(false));
-  }, [selectedCategory]);
-
-  // Limpar filtros
-  const handleClearFilters = () => {
-    setSelectedArea('');
-    setSelectedCategory('');
-    setFilterMode(null);
-    setVisibleCount(3);
-    setError(null);
-    setIsLoading(true);
-
-    getMeals()
-      .then((data) => setMeals(data.meals || []))
-      .catch((err) => {
-        setError('Erro ao recarregar os pratos.');
+        setError("Erro ao filtrar pratos por país.");
         console.error(err);
       })
       .finally(() => setIsLoading(false));
   };
+
+  const handleSelectCategory = (category) => {
+    setSelectedCategory(category);
+    setSelectedArea("");
+    setVisibleCount(3);
+    setIsLoading(true);
+    setError(null);
+
+    if (!category) return;
+
+    getMealsByCategory(category)
+      .then((data) => setMeals(data.meals || []))
+      .catch((err) => {
+        setError("Erro ao filtrar pratos por categoria.");
+        console.error(err);
+      })
+      .finally(() => setIsLoading(false));
+  };
+
+  const handleClearFilters = () => {
+    setSelectedArea("");
+    setSelectedCategory("");
+    setFilterMode(null);
+    setVisibleCount(3);
+    setIsLoading(true);
+    setError(null);
+
+    getMeals()
+      .then((data) => setMeals(data.meals || []))
+      .catch((err) => {
+        setError("Erro ao recarregar os pratos.");
+        console.error(err);
+      })
+      .finally(() => setIsLoading(false));
+  };
+
+  /* Render */
 
   return (
     <main className="meals">
@@ -162,41 +166,42 @@ function Meals() {
         <div className="meals__container">
           <h2 className="meals__title">Pratos típicos</h2>
           <p className="meals__description">
-            Nesta seção, você pode escolher como deseja explorar: por país, ou por categoria.
+            Nesta seção, você pode escolher como deseja explorar: por país ou
+            por categoria.
           </p>
           <p className="meals__description">
-           Clique na imagem de um prato para ver seus detalhes.
+            Clique na imagem de um prato para ver seus detalhes.
           </p>
         </div>
       </section>
 
-      {/* Menu */}
       <section className="meals__filters">
         <div className="filters-menu">
           <button
-            className={`filter-button ${filterMode === 'area' ? 'active' : ''}`}
-            onClick={() => setFilterMode('area')}
+            className={`filter-button ${filterMode === "area" ? "active" : ""}`}
+            onClick={() => setFilterMode("area")}
           >
             🌍 Por país
           </button>
 
           <button
-            className={`filter-button ${filterMode === 'category' ? 'active' : ''}`}
-            onClick={() => setFilterMode('category')}
+            className={`filter-button ${
+              filterMode === "category" ? "active" : ""
+            }`}
+            onClick={() => setFilterMode("category")}
           >
             🍽 Por categoria
           </button>
         </div>
       </section>
 
-      {/* Painéis */}
-      {filterMode === 'area' && (
+      {filterMode === "area" && (
         <section className="meals__filter-panel">
           <label>
-            Selecione um país: 
+            Selecione um país:
             <select
               value={selectedArea}
-              onChange={(e) => setSelectedArea(e.target.value)}
+              onChange={(e) => handleSelectArea(e.target.value)}
             >
               <option value="">Todos os países</option>
               {areas.map((area) => (
@@ -209,13 +214,13 @@ function Meals() {
         </section>
       )}
 
-      {filterMode === 'category' && (
+      {filterMode === "category" && (
         <section className="meals__filter-panel">
           <label>
             Selecione uma categoria:
             <select
               value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
+              onChange={(e) => handleSelectCategory(e.target.value)}
             >
               <option value="">Todas as categorias</option>
               {categories.map((category) => (
@@ -228,15 +233,14 @@ function Meals() {
         </section>
       )}
 
-      {/* Indicador + limpar */}
       {(selectedArea || selectedCategory) && (
         <>
           <p className="meals__active-filter">
-            Exibindo pratos da{' '}
+            Exibindo pratos da{" "}
             <strong>{selectedArea || selectedCategory}</strong>
           </p>
           <button className="meals__clear" onClick={handleClearFilters}>
-            LIMPAR FILTROS
+            Limpar filtros
           </button>
         </>
       )}
@@ -254,12 +258,11 @@ function Meals() {
         <>
           <div className="meals__cards">
             {meals.slice(0, visibleCount).map((meal) => (
-             <MealCard
-              key={meal.idMeal}
-              meal={meal}
-              onSelectMeal={handleSelectedMeal}
-            />
-
+              <MealCard
+                key={meal.idMeal}
+                meal={meal}
+                onSelectMeal={handleSelectMeal}
+              />
             ))}
           </div>
 
@@ -275,47 +278,14 @@ function Meals() {
       )}
 
       {shouldShowModal && (
-        <div className="meal-modal">
-          <div className="meal-modal__overlay"></div>
-
-          <div className="meal-modal__content">
-            <button
-            className="meal-modal__close"
-            onClick={() => setSelectedMealId(null)}
-            >
-              ✕
-            </button>
-            
-            <div className="meal-modal__body">
-              {!selectedMeal && (
-                <p>Carregando detalhes do prato...</p>
-              )}
-
-              {selectedMeal && (
-                <>
-                <img
-                  src={selectedMeal.strMealThumb}
-                  alt={selectedMeal.strMeal}
-                  className="meal-modal__image"
-                />
-
-                <h2 className="meal-modal__title">{selectedMeal.strMeal}</h2>
-
-                <p className="meal-modal__meta">
-                  <strong>Origem:</strong> {selectedMeal.strArea}
-                </p>
-
-                <p className="meal-modal__meta">
-                  <strong>Categoria:</strong> {selectedMeal.strCategory}
-                </p>
-              </>
-              )}
-            </div>
-
-          </div>
-        </div>
+        <MealModal
+          meal={selectedMeal}
+          onClose={() => {
+            setSelectedMealId(null);
+            setSelectedMeal(null);
+          }}
+        />
       )}
-
     </main>
   );
 }

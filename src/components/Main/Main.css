@@ -4,7 +4,7 @@
 
 .main__intro {
   padding: 80px 20px;
- background: linear-gradient(135deg, #d4df43d3, #ebe83b);
+  background: linear-gradient(135deg, #d4df43d3, #ebe83b);
 }
 
 .main__container {
@@ -37,7 +37,9 @@
   background-color: #e4350a;
   border-radius: 8px;
   text-decoration: none;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .main__button:hover {

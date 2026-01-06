@@ -18,7 +18,7 @@
 
 /* Separador | entre itens */
 .navigation__item:not(:last-child)::after {
-  content: '|';
+  content: "|";
   margin-left: 24px;
   color: #999;
   font-size: 18px;
@@ -30,7 +30,10 @@
   font-weight: 500;
   color: #555;
   text-decoration: none;
-  transition: font-size 0.2s ease, font-weight 0.2s ease, color 0.2s ease;
+  transition:
+    font-size 0.2s ease,
+    font-weight 0.2s ease,
+    color 0.2s ease;
 }
 
 /* Item ativo */

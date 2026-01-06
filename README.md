@@ -1,5 +1,4 @@
-
-Food Atlas in React 
+Food Atlas in React
 
 Food Atlas in React é uma aplicação front-end desenvolvida em React cujo objetivo é permitir que usuários explorem pratos típicos de diferentes países e regiões do mundo, utilizando dados reais provenientes de uma API pública.
 
@@ -16,7 +15,7 @@ Interaja com a interface sem recarregamento de página;
 
 O projeto não possui back-end próprio e consome exclusivamente dados da API pública TheMealDB, utilizando apenas recursos de front-end.
 
- Objetivo do Projeto
+Objetivo do Projeto
 
 - Explorar dados reais de uma API pública;
 - Aplicar conceitos fundamentais de React;
@@ -95,7 +94,7 @@ Página de Pratos — Exploração de Dados:
 A página de listagem de pratos é o núcleo funcional da aplicação.
 Nela, foi implementado um menu exploratório, permitindo Exploração por País (Área Culinária)
 No modo de exploração por país, o usuário pode selecionar uma área culinária e visualizar apenas os pratos associados àquela origem.
-A lista de países exibida depende exclusivamente das áreas culinárias disponíveis na API. 
+A lista de países exibida depende exclusivamente das áreas culinárias disponíveis na API.
 Nem todos os países do mundo estão representados, uma vez que apenas regiões que possuem pratos cadastrados são retornadas.
 
 Essa limitação é inerente aos dados externos e é comunicada de forma transparente ao usuário na página About do projeto. O usuário escolhe como deseja navegar pelos dados, sem trocar de página ou perder o contexto.
@@ -107,7 +106,6 @@ Explorar pratos por país (área culinária);
 Explorar pratos por categoria;
 
 A interface indica visualmente o modo ativo, garantindo uma navegação clara e previsível.
-
 
 Exploração por Categoria:
 
@@ -151,7 +149,3 @@ Renderização condicional e controle de estado com useState e useEffect;
 Implementação de modal sem bibliotecas externas;
 Código organizado de forma incremental, sem regressões;
 Ausência de back-end próprio.
-
-
-
-

@@ -1,55 +1,44 @@
-const BASE_URL = 'https://www.themealdb.com/api/json/v1/1';
+const BASE_URL = "https://www.themealdb.com/api/json/v1/1";
 
 function checkResponse(res) {
   if (!res.ok) {
-    return Promise.reject(
-      `Erro na API: ${res.status} ${res.statusText}`
-    );
+    throw new Error(`Erro na API: ${res.status} ${res.statusText}`);
   }
   return res.json();
 }
-
 
 function request(url) {
   return fetch(url).then(checkResponse);
 }
 
-//Pratos
+/* Endpoints da API*/
+
+// Buscar pratos iniciais
 export function getMeals() {
   return request(`${BASE_URL}/search.php?s=`);
 }
 
-//lista de países
+// Listar países (áreas culinárias)
 export function getAreas() {
   return request(`${BASE_URL}/list.php?a=list`);
 }
 
-//lista de categorias
+// Listar categorias
 export function getCategories() {
   return request(`${BASE_URL}/list.php?c=list`);
 }
 
-//filtrar por país
+// Filtrar pratos por país
 export function getMealsByArea(area) {
   return request(`${BASE_URL}/filter.php?a=${area}`);
 }
 
-//pratos por categoria
+// Filtrar pratos por categoria
 export function getMealsByCategory(category) {
-  return request(
-    `${BASE_URL}/filter.php?c=${encodeURIComponent(category)}`
-  );
+  return request(`${BASE_URL}/filter.php?c=${encodeURIComponent(category)}`);
 }
 
+// Buscar detalhes de um prato por ID
 export function getMealById(mealId) {
-  return fetch(`${BASE_URL}/lookup.php?i=${mealId}`)
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error('Erro na resposta da API');
-      }
-      return res.json();
-    });
+  return request(`${BASE_URL}/lookup.php?i=${mealId}`);
 }
-
-
-

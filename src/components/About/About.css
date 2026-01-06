@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   max-width: 100%;
   overflow-x: hidden;
 }
@@ -41,15 +42,14 @@ html, body {
   box-sizing: border-box;
 }
 
-
 @media (max-width: 400px) {
- .about {
-  width: 100%;
-  padding: 40px 20px;
-  box-sizing: border-box;
+  .about {
+    width: 100%;
+    padding: 40px 20px;
+    box-sizing: border-box;
   }
 
-   .about__container {
+  .about__container {
     max-width: 100%;
   }
   .about__title {
@@ -82,5 +82,4 @@ html, body {
 }
 
 @media (max-width: 390px) {
-
 }

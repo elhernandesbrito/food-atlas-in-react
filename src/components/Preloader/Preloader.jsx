@@ -1,4 +1,4 @@
-import './Preloader.css';
+import "./Preloader.css";
 
 function Preloader() {
   return (
@@ -10,4 +10,3 @@ function Preloader() {
 }
 
 export default Preloader;
-    

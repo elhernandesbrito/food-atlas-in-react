@@ -1,5 +1,5 @@
-import { NavLink } from 'react-router-dom';
-import './Navigation.css';
+import { NavLink } from "react-router-dom";
+import "./Navigation.css";
 
 function Navigation() {
   return (
@@ -20,7 +20,6 @@ function Navigation() {
             SOBRE
           </NavLink>
         </li>
-
       </ul>
     </nav>
   );
