@@ -2,6 +2,8 @@ import "./Meals.css";
 import { useState, useEffect } from "react";
 import Preloader from "../Preloader/Preloader";
 import MealCard from "../MealCard/MealCard";
+import MealModal from "../MealModal/MealModal";
+
 import {
   getMeals,
   getAreas,
@@ -276,41 +278,13 @@ function Meals() {
       )}
 
       {shouldShowModal && (
-        <div className="meal-modal">
-          <div className="meal-modal__overlay"></div>
-
-          <div className="meal-modal__content">
-            <button
-              className="meal-modal__close"
-              onClick={() => setSelectedMealId(null)}
-            >
-              ✕
-            </button>
-
-            <div className="meal-modal__body">
-              {!selectedMeal && <p>Carregando detalhes do prato...</p>}
-
-              {selectedMeal && (
-                <>
-                  <img
-                    src={selectedMeal.strMealThumb}
-                    alt={selectedMeal.strMeal}
-                    className="meal-modal__image"
-                  />
-                  <h2 className="meal-modal__title">{selectedMeal.strMeal}</h2>
-
-                  <p className="meal-modal__meta">
-                    <strong>Origem:</strong> {selectedMeal.strArea}
-                  </p>
-
-                  <p className="meal-modal__meta">
-                    <strong>Categoria:</strong> {selectedMeal.strCategory}
-                  </p>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
+        <MealModal
+          meal={selectedMeal}
+          onClose={() => {
+            setSelectedMealId(null);
+            setSelectedMeal(null);
+          }}
+        />
       )}
     </main>
   );
