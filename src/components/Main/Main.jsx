@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import './Main.css';
+import { Link } from "react-router-dom";
+import "./Main.css";
 
 function Main() {
   return (
@@ -11,10 +11,11 @@ function Main() {
           </h2>
 
           <p className="main__description">
-            O Food Atlas convida você a explorar pratos típicos de diferentes países
-            e culturas, reunindo sabores, cores e tradições em um só lugar. Navegue
-            por receitas tradicionais, conheça pratos icônicos e mergulhe na
-            diversidade culinária que conecta pessoas ao redor do mundo.
+            O Food Atlas convida você a explorar pratos típicos de diferentes
+            países e culturas, reunindo sabores, cores e tradições em um só
+            lugar. Navegue por receitas tradicionais, conheça pratos icônicos e
+            mergulhe na diversidade culinária que conecta pessoas ao redor do
+            mundo.
           </p>
 
           <Link to="/pratos" className="main__button">

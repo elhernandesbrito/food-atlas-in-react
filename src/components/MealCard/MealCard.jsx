@@ -1,4 +1,4 @@
-import './MealCard.css';
+import "./MealCard.css";
 
 function MealCard({ meal, onSelectMeal }) {
   return (

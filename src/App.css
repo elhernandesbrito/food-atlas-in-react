@@ -4,7 +4,6 @@
   box-sizing: border-box;
 }
 
-
 /* Layout global da aplicação */
 
 html,
@@ -25,6 +24,3 @@ body,
 main {
   flex: 1;
 }
-
-
-
